@@ -281,7 +281,7 @@ class _CustomersListPageState
                                               ),
                                             ),
                                             Row(
-                                              spacing: 5,
+                                              spacing: 5.1,
                                               children: [
                                                 Text(
                                                   style: TextStyle(
