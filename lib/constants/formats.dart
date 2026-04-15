@@ -70,3 +70,24 @@ void phoneCall({required String number}) async {
     print('Could not launch $number');
   }
 }
+
+void openWhatsApp({required String number}) async {
+  final phone = '234${number.substring(1)}'; // your number
+  // final message = Uri.encodeComponent(
+  //   "Hello, Stockall Solutions; ",
+  // );
+  final url = 'https://wa.me/$phone';
+
+  await launchUrlMain(url);
+}
+
+Future<void> launchUrlMain(url) async {
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
+  } else {
+    print('Could not launch $url');
+  }
+}

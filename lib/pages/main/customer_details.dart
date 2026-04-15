@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stockallcrm/classes/comment_class.dart';
 import 'package:stockallcrm/classes/customers_class.dart';
+import 'package:stockallcrm/components/alerts/call_whatsapp_alert.dart';
 import 'package:stockallcrm/components/alerts/confirm_alert.dart';
 import 'package:stockallcrm/components/alerts/create_comment.dart';
 import 'package:stockallcrm/components/alerts/create_customer.dart';
@@ -270,19 +271,47 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                   CustomerHeadingContainer(
                     flex: 1,
                     action: () async {
-                      phoneCall(
-                        number:
-                            returnCustomerProvider(
-                                  // context: context,
-                                ).customers
-                                .firstWhere(
-                                  (cust) =>
-                                      cust.uuid ==
-                                      widget.customer.uuid,
-                                )
-                                .phone,
+                      showDialog(
+                        context: context,
+                        builder: (callContext) {
+                          return CallWhatsappAlert(
+                            customer: customerMain()!,
+                            whatsapp: () {
+                              openWhatsApp(
+                                number:
+                                    returnCustomerProvider(
+                                          // context: context,
+                                        ).customers
+                                        .firstWhere(
+                                          (cust) =>
+                                              cust.uuid ==
+                                              widget
+                                                  .customer
+                                                  .uuid,
+                                        )
+                                        .phone,
+                              );
+                            },
+                            call: () {
+                              phoneCall(
+                                number:
+                                    returnCustomerProvider(
+                                          // context: context,
+                                        ).customers
+                                        .firstWhere(
+                                          (cust) =>
+                                              cust.uuid ==
+                                              widget
+                                                  .customer
+                                                  .uuid,
+                                        )
+                                        .phone,
+                              );
+                              print(customerMain());
+                            },
+                          );
+                        },
                       );
-                      print(customerMain());
                     },
                     icon: Icon(
                       // color: Colors.grey,
