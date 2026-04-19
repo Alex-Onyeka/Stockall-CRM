@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stockallcrm/classes/comment_class.dart';
 import 'package:stockallcrm/classes/customers_class.dart';
 import 'package:stockallcrm/components/alerts/info_alert_widget.dart';
+import 'package:stockallcrm/components/alerts/select_batch_alert_widget.dart';
 import 'package:stockallcrm/components/buttons/main_button.dart';
 import 'package:stockallcrm/components/text_fields/email_text_field.dart';
 import 'package:stockallcrm/components/text_fields/general_textfield.dart';
@@ -27,6 +28,7 @@ class _CreateCustomerAlertState
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
+  // int? selectedBatch;
   @override
   void initState() {
     super.initState();
@@ -35,8 +37,24 @@ class _CreateCustomerAlertState
         nameController.text = widget.customer?.name ?? '';
         emailController.text = widget.customer?.email ?? '';
         phoneController.text = widget.customer?.phone ?? '';
+        returnCustomerProvider().selectTempBatch(
+          widget.customer?.batch,
+        );
+        setState(() {});
+      } else {
+        returnCustomerProvider().selectTempBatch(
+          returnCustomerProvider().currentBatch,
+        );
         setState(() {});
       }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      returnCustomerProvider().tempBatch = null;
     });
   }
 
@@ -48,128 +66,207 @@ class _CreateCustomerAlertState
       insetPadding: EdgeInsets.all(0),
       contentPadding: EdgeInsets.all(0),
       constraints: BoxConstraints(maxWidth: 400),
-      content: GestureDetector(
-        onTap: () =>
-            FocusManager.instance.primaryFocus?.unfocus(),
-        child: Container(
-          width: 400,
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          padding: EdgeInsets.symmetric(
-            vertical: 40,
-            horizontal: 20,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: [
-              BoxShadow(
-                color: const Color.fromARGB(38, 0, 0, 0),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: Form(
-            key: formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                spacing: 10,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    style: TextStyle(
-                      fontSize:
-                          theme.mobileTexts.h2.fontSize,
-                      fontWeight: FontWeight.bold,
+      content: StatefulBuilder(
+        builder: (context, setState) => GestureDetector(
+          onTap: () =>
+              FocusManager.instance.primaryFocus?.unfocus(),
+          child: Container(
+            width: 400,
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(
+              vertical: 40,
+              horizontal: 20,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color.fromARGB(38, 0, 0, 0),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            child: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  spacing: 10,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment:
+                      MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      style: TextStyle(
+                        fontSize:
+                            theme.mobileTexts.h2.fontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      '${widget.customer != null ? 'Update' : 'Create'} Customer',
                     ),
-                    '${widget.customer != null ? 'Update' : 'Create'} Customer',
-                  ),
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: theme
-                                .mobileTexts
-                                .b3
-                                .fontSize,
-                            color: Colors.grey.shade700,
-                            // fontWeight: FontWeight.bold,
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: theme
+                                  .mobileTexts
+                                  .b3
+                                  .fontSize,
+                              color: Colors.grey.shade700,
+                              // fontWeight: FontWeight.bold,
+                            ),
+                            'Enter Customer Details Below to ${widget.customer != null ? 'Update' : 'Create'} Customer',
                           ),
-                          'Enter Customer Details Below to ${widget.customer != null ? 'Update' : 'Create'} Customer',
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    spacing: 10,
-                    children: [
-                      GeneralTextField(
-                        lines: 1,
-                        validatorAction: (value) {
-                          if (value == null ||
-                              value.isEmpty) {
-                            return 'Name is required';
-                          }
-                          return null;
-                        },
-                        controller: nameController,
-                        theme: theme,
-                        hint: 'Enter Name',
-                        title: 'Name',
-                      ),
-                      GeneralTextField(
-                        lines: 1,
-                        validatorAction: (value) {
-                          if (value == null ||
-                              value.isEmpty) {
-                            return 'Phone Number is required';
-                          }
-                          return null;
-                        },
-                        controller: phoneController,
-                        theme: theme,
-                        hint: 'Enter Phone',
-                        title: 'Phone',
-                      ),
-                      EmailTextField(
-                        controller: emailController,
-                        theme: theme,
-                        isEmail: true,
-                        hint: 'Enter Email (Optional)',
-                        title: 'Email (Optional)',
-                      ),
-                      Visibility(
-                        visible: widget.customer == null,
-                        child: GeneralTextfieldOnly(
-                          lines: 3,
-                          controller: commentController,
-                          theme: theme,
-                          hint: 'Enter Comment',
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10.0,
+                      ],
                     ),
-                    child: MainButton(
-                      isLoading: isLoading,
-                      title:
-                          '${widget.customer != null ? 'Update' : 'Create'} Account',
-                      action: () async {
-                        if (formKey.currentState!
-                            .validate()) {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          if (widget.customer == null) {
-                            var res = await returnCustomerProvider()
-                                .createCustomer(
+                    Column(
+                      spacing: 10,
+                      children: [
+                        GeneralTextField(
+                          lines: 1,
+                          validatorAction: (value) {
+                            if (value == null ||
+                                value.isEmpty) {
+                              return 'Name is required';
+                            }
+                            return null;
+                          },
+                          controller: nameController,
+                          theme: theme,
+                          hint: 'Enter Name',
+                          title: 'Name',
+                        ),
+                        GeneralTextField(
+                          lines: 1,
+                          validatorAction: (value) {
+                            if (value == null ||
+                                value.isEmpty) {
+                              return 'Phone Number is required';
+                            }
+                            return null;
+                          },
+                          controller: phoneController,
+                          theme: theme,
+                          hint: 'Enter Phone',
+                          title: 'Phone',
+                        ),
+                        EmailTextField(
+                          controller: emailController,
+                          theme: theme,
+                          isEmail: true,
+                          hint: 'Enter Email (Optional)',
+                          title: 'Email (Optional)',
+                        ),
+                        Visibility(
+                          visible: widget.customer == null,
+                          child: GeneralTextfieldOnly(
+                            lines: 3,
+                            controller: commentController,
+                            theme: theme,
+                            hint: 'Enter Comment',
+                          ),
+                        ),
+                        Material(
+                          color: Colors.transparent,
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(
+                                32,
+                                255,
+                                168,
+                                7,
+                              ),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return SelectBatchAlertWidget(
+                                      title: 'Select Batch',
+                                      message:
+                                          'Select batch from the Options Below',
+                                      batch:
+                                          returnCustomerProvider()
+                                              .tempBatch,
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding:
+                                    EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 10,
+                                    ),
+                                child: Row(
+                                  spacing: 5,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .center,
+                                  children: [
+                                    Text(
+                                      style: TextStyle(
+                                        fontSize: theme
+                                            .mobileTexts
+                                            .b3
+                                            .fontSize,
+                                        fontWeight:
+                                            FontWeight.bold,
+                                      ),
+                                      returnCustomerProvider(
+                                                    context:
+                                                        context,
+                                                  ).tempBatch ==
+                                                  null ||
+                                              returnCustomerProvider(
+                                                    context:
+                                                        context,
+                                                  ).tempBatch ==
+                                                  0
+                                          ? 'Select Batch'
+                                          : "Batch ${returnCustomerProvider(context: context).tempBatch}",
+                                    ),
+                                    Icon(
+                                      size: 18,
+                                      Icons
+                                          .more_vert_rounded,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10.0,
+                      ),
+                      child: MainButton(
+                        isLoading: isLoading,
+                        title:
+                            '${widget.customer != null ? 'Update' : 'Create'} Account',
+                        action: () async {
+                          if (formKey.currentState!
+                              .validate()) {
+                            if (returnCustomerProvider()
+                                        .tempBatch !=
+                                    null &&
+                                returnCustomerProvider()
+                                        .tempBatch !=
+                                    0) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (widget.customer == null) {
+                                var res = await returnCustomerProvider().createCustomer(
                                   comment:
                                       commentController
                                           .text
@@ -188,6 +285,9 @@ class _CreateCustomerAlertState
                                         )
                                       : null,
                                   customer: CustomerClass(
+                                    batch:
+                                        returnCustomerProvider()
+                                            .tempBatch!,
                                     status: 1,
                                     lastComment:
                                         DateTime.now(),
@@ -206,31 +306,35 @@ class _CreateCustomerAlertState
                                         .trim(),
                                   ),
                                 );
-                            if (res == 0) {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              showDialog(
-                                context: context,
-                                builder: (errorContext) {
-                                  return InfoAlertWidget(
-                                    title: 'Error',
-                                    message:
-                                        'An Error Occoured While Creating this Customer. Please try again.',
+                                if (res == 0) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  showDialog(
+                                    context: context,
+                                    builder: (errorContext) {
+                                      return InfoAlertWidget(
+                                        title: 'Error',
+                                        message:
+                                            'An Error Occoured While Creating this Customer. Please try again.',
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            } else {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              Navigator.of(context).pop();
-                            }
-                          } else {
-                            var res =
-                                await returnCustomerProvider()
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  Navigator.of(
+                                    context,
+                                  ).pop();
+                                }
+                              } else {
+                                var res = await returnCustomerProvider()
                                     .updateCustomer(
                                       customer: CustomerClass(
+                                        batch:
+                                            returnCustomerProvider()
+                                                .tempBatch!,
                                         status: widget
                                             .customer!
                                             .status,
@@ -259,32 +363,48 @@ class _CreateCustomerAlertState
                                             .uuid,
                                       ),
                                     );
-                            if (res == 0) {
-                              setState(() {
-                                isLoading = false;
-                              });
+                                if (res == 0) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  showDialog(
+                                    context: context,
+                                    builder: (errorContext) {
+                                      return InfoAlertWidget(
+                                        title: 'Error',
+                                        message:
+                                            'An Error Occoured While Updating this Customer. Please try again.',
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  Navigator.of(
+                                    context,
+                                  ).pop();
+                                }
+                              }
+                            } else {
                               showDialog(
                                 context: context,
                                 builder: (errorContext) {
                                   return InfoAlertWidget(
-                                    title: 'Error',
+                                    title:
+                                        'Batch Not Selected',
                                     message:
-                                        'An Error Occoured While Updating this Customer. Please try again.',
+                                        'Please Select a batch for this customer before proceeding. Thank You.',
                                   );
                                 },
                               );
-                            } else {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              Navigator.of(context).pop();
                             }
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

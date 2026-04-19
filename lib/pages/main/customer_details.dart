@@ -100,13 +100,17 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                       Icons.arrow_back_ios_new_rounded,
                     ),
                   ),
-                  Text(
-                    style: TextStyle(
-                      fontSize:
-                          theme.mobileTexts.h4.fontSize,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize:
+                            theme.mobileTexts.h4.fontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      customerMain()?.name ??
+                          'Customer Name',
                     ),
-                    customerMain()?.name ?? 'Customer Name',
                   ),
                   Builder(
                     builder: (context) {

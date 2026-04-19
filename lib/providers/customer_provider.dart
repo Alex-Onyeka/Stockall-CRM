@@ -22,6 +22,26 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  int? tempBatch;
+
+  void selectTempBatch(int? index) {
+    tempBatch = index;
+    notifyListeners();
+  }
+
+  int? currentBatch;
+
+  void selectBatch(int? index) {
+    currentBatch = index;
+    notifyListeners();
+  }
+
+  String currentBatchText() {
+    return currentBatch != null
+        ? "Batch $currentBatch"
+        : "All Batches";
+  }
+
   List<CustomerClass> getUsersCustomers({
     String? userId,
     int? status,
@@ -29,23 +49,56 @@ class CustomerProvider extends ChangeNotifier {
     customers.sort(
       (a, b) => b.lastComment.compareTo(a.lastComment),
     );
-    return status != null
-        ? userId == null
-              ? customers
-                    .where((cust) => cust.status == status)
-                    .toList()
-              : customers
-                    .where(
-                      (cust) =>
-                          cust.userId == userId &&
-                          cust.status == status,
-                    )
-                    .toList()
-        : userId == null
-        ? customers
-        : customers
-              .where((cust) => cust.userId == userId)
-              .toList();
+    if (currentBatch == null) {
+      return status != null
+          ? userId == null
+                ? customers
+                      .where(
+                        (cust) => cust.status == status,
+                      )
+                      .toList()
+                : customers
+                      .where(
+                        (cust) =>
+                            cust.userId == userId &&
+                            cust.status == status,
+                      )
+                      .toList()
+          : userId == null
+          ? customers
+          : customers
+                .where((cust) => cust.userId == userId)
+                .toList();
+    } else {
+      return status != null
+          ? userId == null
+                ? customers
+                      .where(
+                        (cust) =>
+                            cust.status == status &&
+                            cust.batch == currentBatch,
+                      )
+                      .toList()
+                : customers
+                      .where(
+                        (cust) =>
+                            cust.userId == userId &&
+                            cust.status == status &&
+                            cust.batch == currentBatch,
+                      )
+                      .toList()
+          : userId == null
+          ? customers
+                .where((cust) => cust.batch == currentBatch)
+                .toList()
+          : customers
+                .where(
+                  (cust) =>
+                      cust.userId == userId &&
+                      cust.batch == currentBatch,
+                )
+                .toList();
+    }
   }
 
   Future<int> getCustomers() async {

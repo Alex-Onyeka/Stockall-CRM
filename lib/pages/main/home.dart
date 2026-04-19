@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stockallcrm/components/alerts/confirm_alert.dart';
 import 'package:stockallcrm/components/alerts/create_customer.dart';
+import 'package:stockallcrm/components/alerts/select_batch_alert_widget.dart';
 import 'package:stockallcrm/constants/refresh_function.dart';
 import 'package:stockallcrm/main.dart';
 import 'package:stockallcrm/pages/main/customers_list_page.dart';
@@ -169,41 +170,111 @@ class _HomeState extends State<Home> {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(
                         20.0,
-                        10,
+                        0,
                         20,
                         10,
                       ),
-                      child: RefreshIndicator(
-                        onRefresh: () {
-                          return refreshAll();
-                        },
-                        backgroundColor: Colors.white,
-                        color: theme
-                            .lightModeColor
-                            .secColor200,
-                        displacement: 10,
-                        child: ListView(
-                          children: [
-                            HomeListTile(
-                              title: 'All Customers',
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.end,
+                            spacing: 5,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return SelectBatchAlertWidget(
+                                        title:
+                                            'Select Batch',
+                                        message:
+                                            'Select batch from the Options Below',
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(
+                                        horizontal: 10.0,
+                                        vertical: 5,
+                                      ),
+                                  child: Row(
+                                    mainAxisSize:
+                                        MainAxisSize.min,
+                                    spacing: 5,
+                                    children: [
+                                      Text(
+                                        style: TextStyle(
+                                          fontSize: theme
+                                              .mobileTexts
+                                              .b4
+                                              .fontSize,
+                                          fontWeight:
+                                              FontWeight
+                                                  .bold,
+                                        ),
+                                        returnCustomerProvider(
+                                          context: context,
+                                        ).currentBatchText(),
+                                      ),
+                                      Icon(
+                                        size: 18,
+                                        color: theme
+                                            .lightModeColor
+                                            .secColor200,
+                                        Icons
+                                            .more_vert_rounded,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: RefreshIndicator(
+                              onRefresh: () {
+                                return refreshAll();
+                              },
+                              backgroundColor: Colors.white,
+                              color: theme
+                                  .lightModeColor
+                                  .secColor200,
+                              displacement: 10,
+                              child: ListView(
+                                children: [
+                                  HomeListTile(
+                                    title: 'All Customers',
+                                  ),
+                                  HomeListTile(
+                                    title: 'My Customers',
+                                    userId: AuthService()
+                                        .userId,
+                                  ),
+                                  Column(
+                                    children:
+                                        returnUserProvider()
+                                            .otherUsers()
+                                            .map(
+                                              (
+                                                user,
+                                              ) => HomeListTile(
+                                                title: user
+                                                    .name,
+                                                userId: user
+                                                    .uuid,
+                                              ),
+                                            )
+                                            .toList(),
+                                  ),
+                                ],
+                              ),
                             ),
-                            HomeListTile(
-                              title: 'My Customers',
-                              userId: AuthService().userId,
-                            ),
-                            Column(
-                              children: returnUserProvider()
-                                  .otherUsers()
-                                  .map(
-                                    (user) => HomeListTile(
-                                      title: user.name,
-                                      userId: user.uuid,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

@@ -7,6 +7,7 @@ class CustomerClass {
   final String phone;
   DateTime lastComment;
   int status;
+  int batch;
 
   CustomerClass({
     this.uuid,
@@ -17,6 +18,7 @@ class CustomerClass {
     required this.phone,
     required this.lastComment,
     required this.status,
+    required this.batch,
   });
 
   factory CustomerClass.fromJson(
@@ -31,6 +33,7 @@ class CustomerClass {
       phone: json['phone'] as String,
       lastComment: DateTime.parse(json['last_comment']),
       status: json['status'] as int,
+      batch: json['batch'] as int,
     );
   }
 
@@ -42,6 +45,7 @@ class CustomerClass {
       'phone': phone,
       'last_comment': lastComment.toIso8601String(),
       'status': status,
+      'batch': batch,
     };
 
     if (uuid != null) {
