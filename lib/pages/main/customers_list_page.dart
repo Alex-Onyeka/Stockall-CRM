@@ -127,54 +127,70 @@ class _CustomersListPageState
                     ),
                   ),
                   Container(
+                    width: MediaQuery.sizeOf(context).width,
                     color: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 15.0,
                       vertical: 2,
                     ),
-                    child: Row(
-                      children: [
-                        TopSortButtonWidget(
-                          status: status,
-                          myIndex: null,
-                          title: 'All',
-                          action: () {
-                            setState(() {
-                              status = null;
-                            });
-                          },
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            TopSortButtonWidget(
+                              status: status,
+                              myIndex: null,
+                              title: 'All',
+                              action: () {
+                                setState(() {
+                                  status = null;
+                                });
+                              },
+                            ),
+                            TopSortButtonWidget(
+                              status: status,
+                              myIndex: 1,
+                              title: 'New',
+                              action: () {
+                                setState(() {
+                                  status = 1;
+                                });
+                              },
+                            ),
+                            TopSortButtonWidget(
+                              status: status,
+                              myIndex: 2,
+                              title: 'Processing',
+                              action: () {
+                                setState(() {
+                                  status = 2;
+                                });
+                              },
+                            ),
+                            TopSortButtonWidget(
+                              status: status,
+                              myIndex: 3,
+                              title: 'Complete',
+                              action: () {
+                                setState(() {
+                                  status = 3;
+                                });
+                              },
+                            ),
+                            TopSortButtonWidget(
+                              status: status,
+                              myIndex: 4,
+                              title: 'Subscribed',
+                              action: () {
+                                setState(() {
+                                  status = 4;
+                                });
+                              },
+                            ),
+                          ],
                         ),
-                        TopSortButtonWidget(
-                          status: status,
-                          myIndex: 1,
-                          title: 'New',
-                          action: () {
-                            setState(() {
-                              status = 1;
-                            });
-                          },
-                        ),
-                        TopSortButtonWidget(
-                          status: status,
-                          myIndex: 2,
-                          title: 'Processing',
-                          action: () {
-                            setState(() {
-                              status = 2;
-                            });
-                          },
-                        ),
-                        TopSortButtonWidget(
-                          status: status,
-                          myIndex: 3,
-                          title: 'Complete',
-                          action: () {
-                            setState(() {
-                              status = 3;
-                            });
-                          },
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                   Visibility(
@@ -530,31 +546,33 @@ class TopSortButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = returnThemeProvider();
-    return Expanded(
-      child: InkWell(
-        onTap: action,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: status == myIndex
-                    ? theme.lightModeColor.prColor250
-                    : Colors.transparent,
-                width: status == myIndex ? 1 : 0,
-              ),
+    return InkWell(
+      onTap: action,
+      child: Container(
+        width: 65,
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: status == myIndex
+                  ? theme.lightModeColor.prColor250
+                  : Colors.transparent,
+              width: status == myIndex ? 1 : 0,
             ),
           ),
-          padding: EdgeInsetsGeometry.all(8),
-          child: Center(
-            child: Text(
-              style: TextStyle(
-                fontSize: theme.mobileTexts.b4.fontSize,
-                fontWeight: status == myIndex
-                    ? FontWeight.bold
-                    : null,
-              ),
-              title,
+        ),
+        padding: EdgeInsetsGeometry.symmetric(
+          vertical: 8,
+          horizontal: 2,
+        ),
+        child: Center(
+          child: Text(
+            style: TextStyle(
+              fontSize: theme.mobileTexts.b4.fontSize,
+              fontWeight: status == myIndex
+                  ? FontWeight.bold
+                  : null,
             ),
+            title,
           ),
         ),
       ),

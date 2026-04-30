@@ -252,7 +252,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         ? 'New'
                         : customerMain()?.status == 2
                         ? 'Processing'
-                        : 'Completed',
+                        : customerMain()?.status == 3
+                        ? 'Completed'
+                        : 'Subscribed',
                     action: () {
                       showDialog(
                         context: context,

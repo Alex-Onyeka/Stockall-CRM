@@ -138,6 +138,16 @@ class _SelectStatusAlertWdgetState
                     tempStatus: tempStatus,
                     myIndex: 3,
                   ),
+                  StatusSelectionList(
+                    action: () {
+                      setState(() {
+                        tempStatus = 4;
+                      });
+                    },
+                    title: 'Subscribed',
+                    tempStatus: tempStatus,
+                    myIndex: 4,
+                  ),
                 ],
               ),
             ),
