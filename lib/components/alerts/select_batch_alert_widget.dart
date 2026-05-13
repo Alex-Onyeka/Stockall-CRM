@@ -151,6 +151,26 @@ class _SelectBatchAlertWidgetState
                     tempbatch: tempbatch ?? 0,
                     myIndex: 3,
                   ),
+                  StatusSelectionList(
+                    action: () {
+                      setState(() {
+                        tempbatch = 4;
+                      });
+                    },
+                    title: 'Batch 4',
+                    tempbatch: tempbatch ?? 0,
+                    myIndex: 4,
+                  ),
+                  StatusSelectionList(
+                    action: () {
+                      setState(() {
+                        tempbatch = 5;
+                      });
+                    },
+                    title: 'Batch 5',
+                    tempbatch: tempbatch ?? 0,
+                    myIndex: 5,
+                  ),
                 ],
               ),
             ),
