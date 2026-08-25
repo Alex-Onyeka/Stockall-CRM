@@ -218,6 +218,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         InkWell(
+                          mouseCursor:
+                              SystemMouseCursors.click,
                           onTap: widget.action,
                           child: Padding(
                             padding: const EdgeInsets.all(

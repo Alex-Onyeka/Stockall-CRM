@@ -42,6 +42,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
           widget.title,
         ),
         TextFormField(
+          autofocus: true,
           focusNode: widget.focusNode,
           onFieldSubmitted: widget.onSubmit,
           enabled: widget.isEnabled ?? true,
@@ -63,6 +64,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
             suffixIcon: Visibility(
               visible: !widget.isEmail,
               child: InkWell(
+                mouseCursor: SystemMouseCursors.click,
                 onTap: () {
                   setState(() {
                     hidden = !hidden;

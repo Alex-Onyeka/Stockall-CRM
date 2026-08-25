@@ -61,6 +61,7 @@ class _GeneralTextFieldState
           widget.title,
         ),
         TextFormField(
+          autofocus: true,
           validator: widget.validatorAction,
           focusNode: widget.focusNode,
           onFieldSubmitted: widget.onSubmitted,

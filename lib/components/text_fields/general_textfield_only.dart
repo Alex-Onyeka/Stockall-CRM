@@ -48,6 +48,7 @@ class _GeneralTextfieldOnlyState
     return Form(
       key: widget.formState,
       child: TextFormField(
+        autofocus: true,
         keyboardType: TextInputType.multiline,
         minLines: widget.lines,
         maxLines: 6,

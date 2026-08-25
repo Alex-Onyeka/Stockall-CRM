@@ -211,6 +211,7 @@ class StatusSelectionList extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        mouseCursor: SystemMouseCursors.click,
         onTap: action,
         child: SizedBox(
           height: 35,

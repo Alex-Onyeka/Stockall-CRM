@@ -183,6 +183,8 @@ class _CreateCustomerAlertState
                               ),
                             ),
                             child: InkWell(
+                              mouseCursor:
+                                  SystemMouseCursors.click,
                               onTap: () {
                                 showDialog(
                                   context: context,

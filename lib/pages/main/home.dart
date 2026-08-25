@@ -182,6 +182,9 @@ class _HomeState extends State<Home> {
                             spacing: 5,
                             children: [
                               InkWell(
+                                mouseCursor:
+                                    SystemMouseCursors
+                                        .click,
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -317,6 +320,7 @@ class HomeListTile extends StatelessWidget {
           ],
         ),
         child: InkWell(
+          mouseCursor: SystemMouseCursors.click,
           onTap: () {
             Navigator.push(
               context,

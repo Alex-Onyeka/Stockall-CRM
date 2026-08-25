@@ -348,6 +348,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                     'Comments',
                   ),
                   InkWell(
+                    mouseCursor: SystemMouseCursors.click,
                     onTap: () {
                       showDialog(
                         context: context,
@@ -564,6 +565,8 @@ class _CommentsListTileWidgetState
                         );
                       } else {
                         return InkWell(
+                          mouseCursor:
+                              SystemMouseCursors.click,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -613,6 +616,8 @@ class _CommentsListTileWidgetState
                         );
                       } else {
                         return InkWell(
+                          mouseCursor:
+                              SystemMouseCursors.click,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -720,6 +725,7 @@ class CustomerHeadingContainer extends StatelessWidget {
             color: const Color.fromARGB(24, 6, 13, 88),
           ),
           child: InkWell(
+            mouseCursor: SystemMouseCursors.click,
             onTap: action,
             child: Container(
               padding: EdgeInsets.all(5),

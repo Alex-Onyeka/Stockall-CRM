@@ -305,6 +305,9 @@ class _CustomersListPageState
                                               ],
                                             ),
                                             child: InkWell(
+                                              mouseCursor:
+                                                  SystemMouseCursors
+                                                      .click,
                                               onTap: () {
                                                 Navigator.push(
                                                   context,
@@ -435,7 +438,11 @@ class _CustomersListPageState
                       20,
                     ),
                     constraints: BoxConstraints(
-                      maxWidth: 400,
+                      maxWidth:
+                          MediaQuery.of(
+                            context,
+                          ).size.width -
+                          50,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(
@@ -547,6 +554,7 @@ class TopSortButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = returnThemeProvider();
     return InkWell(
+      mouseCursor: SystemMouseCursors.click,
       onTap: action,
       child: Container(
         width: 65,

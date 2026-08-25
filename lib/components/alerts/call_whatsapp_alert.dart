@@ -82,6 +82,8 @@ class CallWhatsappAlert extends StatelessWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
+                        mouseCursor:
+                            SystemMouseCursors.click,
                         onTap: whatsapp,
                         child: Container(
                           padding: EdgeInsets.all(10),
@@ -112,6 +114,8 @@ class CallWhatsappAlert extends StatelessWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
+                        mouseCursor:
+                            SystemMouseCursors.click,
                         onTap: call,
                         child: Container(
                           padding: EdgeInsets.all(10),

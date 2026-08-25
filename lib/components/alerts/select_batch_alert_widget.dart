@@ -48,6 +48,7 @@ class _SelectBatchAlertWidgetState
       insetPadding: EdgeInsets.all(0),
       content: Container(
         width: 400,
+        height: MediaQuery.of(context).size.height - 30,
         margin: EdgeInsets.symmetric(horizontal: 20),
         padding: EdgeInsets.symmetric(
           vertical: 30,
@@ -94,84 +95,133 @@ class _SelectBatchAlertWidgetState
               ],
             ),
             SizedBox(height: 5),
-            Container(
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                border: Border.all(
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(
+                      106,
+                      2,
+                      21,
+                      83,
+                    ),
+                  ),
                   color: const Color.fromARGB(
-                    106,
-                    2,
-                    21,
-                    83,
+                    17,
+                    4,
+                    29,
+                    139,
                   ),
                 ),
-                color: const Color.fromARGB(17, 4, 29, 139),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                spacing: 3,
-                children: [
-                  StatusSelectionList(
-                    action: () {
-                      setState(() {
-                        tempbatch = 0;
-                      });
-                    },
-                    title: 'All Batches',
-                    tempbatch: tempbatch ?? 0,
-                    myIndex: 0,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 3,
+                    children: [
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 0;
+                          });
+                        },
+                        title: 'All Batches',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 0,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 1;
+                          });
+                        },
+                        title: 'Batch 1',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 1,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 2;
+                          });
+                        },
+                        title: 'Batch 2',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 2,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 3;
+                          });
+                        },
+                        title: 'Batch 3',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 3,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 4;
+                          });
+                        },
+                        title: 'Batch 4',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 4,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 5;
+                          });
+                        },
+                        title: 'Batch 5',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 5,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 6;
+                          });
+                        },
+                        title: 'Batch 6',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 6,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 7;
+                          });
+                        },
+                        title: 'Batch 7',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 7,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 8;
+                          });
+                        },
+                        title: 'Batch 8',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 8,
+                      ),
+                      StatusSelectionList(
+                        action: () {
+                          setState(() {
+                            tempbatch = 9;
+                          });
+                        },
+                        title: 'Batch 9',
+                        tempbatch: tempbatch ?? 0,
+                        myIndex: 9,
+                      ),
+                    ],
                   ),
-                  StatusSelectionList(
-                    action: () {
-                      setState(() {
-                        tempbatch = 1;
-                      });
-                    },
-                    title: 'Batch 1',
-                    tempbatch: tempbatch ?? 0,
-                    myIndex: 1,
-                  ),
-                  StatusSelectionList(
-                    action: () {
-                      setState(() {
-                        tempbatch = 2;
-                      });
-                    },
-                    title: 'Batch 2',
-                    tempbatch: tempbatch ?? 0,
-                    myIndex: 2,
-                  ),
-                  StatusSelectionList(
-                    action: () {
-                      setState(() {
-                        tempbatch = 3;
-                      });
-                    },
-                    title: 'Batch 3',
-                    tempbatch: tempbatch ?? 0,
-                    myIndex: 3,
-                  ),
-                  StatusSelectionList(
-                    action: () {
-                      setState(() {
-                        tempbatch = 4;
-                      });
-                    },
-                    title: 'Batch 4',
-                    tempbatch: tempbatch ?? 0,
-                    myIndex: 4,
-                  ),
-                  StatusSelectionList(
-                    action: () {
-                      setState(() {
-                        tempbatch = 5;
-                      });
-                    },
-                    title: 'Batch 5',
-                    tempbatch: tempbatch ?? 0,
-                    myIndex: 5,
-                  ),
-                ],
+                ),
               ),
             ),
             SizedBox(height: 10),
@@ -220,6 +270,7 @@ class StatusSelectionList extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        mouseCursor: SystemMouseCursors.click,
         onTap: action,
         child: SizedBox(
           height: 35,
